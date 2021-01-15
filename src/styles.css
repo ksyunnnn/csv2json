@@ -19,7 +19,7 @@ body {
   display: flex;
   justify-content: center;
 
-  padding-top: 160px;
+  padding: 160px 24px 0;
 }
 
 /* https://codepen.io/swapnet/pen/QWwPVwE */
@@ -48,7 +48,7 @@ textarea:focus {
 }
 
 .input {
-  width: 400px;
+  max-width: 400px;
   margin: auto;
 }
 
@@ -65,7 +65,9 @@ textarea:focus {
 
   padding: 1rem;
   width: 480px;
+
 }
+
 .obj:hover {
   opacity: 0.72;
 }
@@ -78,4 +80,13 @@ textarea:focus {
 
 .wrapper > *:not(:last-child) {
   margin-right: 4rem;
+}
+
+@media screen and (max-width: 960px) {
+  .raw, .obj {
+    width: 100%;
+  }
+  .wrapper > *:not(:last-child) {
+    margin-right: 0;
+  }
 }

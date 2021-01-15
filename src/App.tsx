@@ -64,6 +64,7 @@ const header = css`
   > div {
     max-width: 1280px;
     margin: auto;
+    padding: 1.6rem;
   }
   h1 {
     font-size: 1.6rem;
