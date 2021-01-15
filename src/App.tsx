@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import React from "react";
+import React, { useState } from "react";
 import "./styles.css";
 import CSVInput, { useCSVInput } from "./CSVInput";
 import Snackbar, { useSnackbar } from "./Snackbar";
@@ -18,7 +18,7 @@ const copyClipbord = (text: string) => {
 };
 
 export default function App() {
-  const { raw, inputProps, obj, rawChange } = useCSVInput();
+  const { raw, inputProps, obj, rawChange, check, checkChange } = useCSVInput();
   const snack = useSnackbar();
 
   const clickObjButton = () => {
@@ -32,6 +32,10 @@ export default function App() {
       <div>
         <div className="input">
           <CSVInput inputProps={inputProps} />
+          <label className={checkLabel}>
+            <input type="checkbox" value="useuid" checked={check} onChange={checkChange} />
+            Use uid
+          </label>
         </div>
         <div className="wrapper">
           <textarea
@@ -73,7 +77,7 @@ const header = css`
 `;
 
 const author = css`
-  position: absolute;
+  position: fixed;
   right: 2.4rem;
   bottom: 0.8rem;
   font-size: 0.8rem;
@@ -84,6 +88,15 @@ const author = css`
       text-decoration: underline;
     }
   }
+`;
+
+const checkLabel = css`
+  text-shadow: 1px 1px 0 #fff;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 4px 8px;
 `;
 
 /* Readme */

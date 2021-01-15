@@ -19,12 +19,12 @@ body {
   display: flex;
   justify-content: center;
 
-  padding: 160px 24px 0;
+  padding: 160px 24px 80px;
 }
 
 /* https://codepen.io/swapnet/pen/QWwPVwE */
 
-input,
+input:not([type="checkbox"]),
 textarea {
   border: 0;
   outline: 0;

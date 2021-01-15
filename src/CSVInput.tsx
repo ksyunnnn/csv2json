@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { v4 as uuidv4 } from 'uuid';
 
 export const useCSVInput = (
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>
@@ -14,6 +15,10 @@ export const useCSVInput = (
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFiles(e.target.files);
   };
+
+
+  const [check, setCheck] = useState(false);
+  const checkChange = (e: any) => setCheck(e.target.checked);
 
   useEffect(() => {
     const file = files?.item(0);
@@ -44,14 +49,17 @@ export const useCSVInput = (
         const split = row.split(",");
 
         const rt: any = {};
-        header.forEach((v, i) => (rt[v] = split[i]));
+        if(check)rt.uid = uuidv4();
+        header.forEach((v, i) => (rt[v.replace("\r","")] = split[i].replace("\r","")));
 
         return rt;
       })
       .filter((v) => v);
 
+    
+
     setObj(newObj);
-  }, [raw]);
+  }, [raw, check]);
 
   return {
     inputProps: {
@@ -60,7 +68,9 @@ export const useCSVInput = (
     },
     raw,
     obj,
-    rawChange
+    rawChange,
+    check,
+    checkChange
   };
 };
 
