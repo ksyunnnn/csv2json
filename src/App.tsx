@@ -39,6 +39,7 @@ export default function App() {
             value={raw}
             onChange={rawChange}
             placeholder="Or write some text/csv..."
+            spellCheck="false"
           />
           <label htmlFor="copy-input" className="obj">
             {JSON.stringify(obj, null, "\t")}
