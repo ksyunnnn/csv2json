@@ -16,9 +16,14 @@ export const useCSVInput = (
     setFiles(e.target.files);
   };
 
-
-  const [check, setCheck] = useState(false);
-  const checkChange = (e: any) => setCheck(e.target.checked);
+  const op = {true:"true",false:"false"};
+  const initCheck = localStorage.getItem("useuid") === op.true;
+  const [check, setCheck] = useState(initCheck);
+  const checkChange = (e: any) => {
+    const bool = e.target.checked
+    localStorage.setItem('useuid', bool?op.true:op.false);
+    setCheck(bool)
+  };
 
   useEffect(() => {
     const file = files?.item(0);
