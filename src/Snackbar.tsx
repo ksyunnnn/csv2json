@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import React, { useState } from "react";
-import { css } from "@emotion/css";
+import React, { useState } from 'react';
+import { css } from '@emotion/css';
 
 const sleep = (msec: number) =>
   new Promise((resolve) => setTimeout(resolve, msec));
@@ -31,7 +31,7 @@ export const useSnackbar = () => {
     shown,
     isRender,
     show,
-    hide
+    hide,
   };
 };
 
@@ -40,7 +40,7 @@ const Snackbar: React.FC<{ isRender: boolean; shown: boolean }> = (props) => {
   return (
     <>
       {isRender && (
-        <div className={`${wrapper} ${shown ? "shown" : ""}`}>{children}</div>
+        <div className={`${wrapper} ${shown ? 'shown' : ''}`}>{children}</div>
       )}
     </>
   );

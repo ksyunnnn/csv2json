@@ -1,28 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 export const useCSVInput = (
-  inputProps?: React.InputHTMLAttributes<HTMLInputElement>
+  inputProps?: React.InputHTMLAttributes<HTMLInputElement>,
 ) => {
   const [files, setFiles] = useState<FileList | null>();
 
   const [raw, setRaw] = useState<any>(); // [TODO] 型を付けたい。ちょっと不安
   const [obj, setObj] = useState<any>();
 
-  const rawChange = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
-    setRaw(e.target.value);
+  const rawChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => setRaw(e.target.value);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFiles(e.target.files);
   };
 
-  const op = {true:"true",false:"false"};
-  const initCheck = localStorage.getItem("useuid") === op.true;
+  const op = { true: 'true', false: 'false' };
+  const initCheck = localStorage.getItem('useuid') === op.true;
   const [check, setCheck] = useState(initCheck);
   const checkChange = (e: any) => {
-    const bool = e.target.checked
-    localStorage.setItem('useuid', bool?op.true:op.false);
-    setCheck(bool)
+    const bool = e.target.checked;
+    localStorage.setItem('useuid', bool ? op.true : op.false);
+    setCheck(bool);
   };
 
   useEffect(() => {
@@ -33,10 +32,9 @@ export const useCSVInput = (
       reader.readAsText(file);
       reader.onload = () => {
         if (
-          typeof reader.result === typeof ArrayBuffer ||
-          reader.result === null
-        )
-          return;
+          typeof reader.result === typeof ArrayBuffer
+          || reader.result === null
+        ) { return; }
         setRaw(reader.result);
       };
     }
@@ -45,23 +43,26 @@ export const useCSVInput = (
   useEffect(() => {
     if (!raw) return;
 
-    const rows: string[] = raw.split("\n");
-    const header = rows[0].split(",");
+    const rows: string[] = raw.split('\n');
+    const header = rows[0].split(',');
 
     const newObj = rows
       .map((row, i) => {
         if (i === 0) return undefined;
-        const split = row.split(",");
+        const split = row.split(',');
 
         const rt: any = {};
-        if(check)rt.uid = uuidv4();
-        header.forEach((v, i) => (rt[v.replace("\r","")] = split[i].replace("\r","")));
+        if (check)rt.uid = uuidv4();
+
+        header.forEach((v, idx) => {
+          const key = v.replace('\r', '');
+          const value = split[idx]?.replace('\r', '');
+          rt[key] = value;
+        });
 
         return rt;
       })
       .filter((v) => v);
-
-    
 
     setObj(newObj);
   }, [raw, check]);
@@ -69,20 +70,18 @@ export const useCSVInput = (
   return {
     inputProps: {
       ...inputProps,
-      onChange: handleChange
+      onChange: handleChange,
     },
     raw,
     obj,
     rawChange,
     check,
-    checkChange
+    checkChange,
   };
 };
 
-const CSVInput = (props: {
+const CSVInput = ({ inputProps }: {
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
-}) => {
-  return <input {...props.inputProps} type="file" accept="text/csv" />;
-};
+}) => <input {...inputProps} type="file" accept="text/csv" />;
 
 export default CSVInput;

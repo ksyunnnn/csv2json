@@ -1,29 +1,32 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import React from "react";
-import "./styles.css";
-import CSVInput, { useCSVInput } from "./CSVInput";
-import Snackbar, { useSnackbar } from "./Snackbar";
-import { css } from "@emotion/css";
+import React from 'react';
+import './styles.css';
+import { css } from '@emotion/css';
+import CSVInput, { useCSVInput } from './CSVInput';
+import Snackbar, { useSnackbar } from './Snackbar';
 
 const copyClipbord = (text: string) => {
   const area: HTMLTextAreaElement | null = window.document.createElement(
-    "textarea"
+    'textarea',
   );
   area.value = text;
   window.document.body.appendChild(area);
   area.select();
 
-  window.document.execCommand("copy");
+  window.document.execCommand('copy');
   area?.parentElement?.removeChild(area);
 };
 
 export default function App() {
-  const { raw, inputProps, obj, rawChange, check, checkChange } = useCSVInput();
+  const {
+    raw, inputProps, obj, rawChange, check, checkChange,
+  } = useCSVInput();
   const snack = useSnackbar();
 
   const clickObjButton = () => {
+    if (!obj) return;
     snack.show();
-    copyClipbord(JSON.stringify(obj, null, "\t"));
+    copyClipbord(JSON.stringify(obj, null, '\t'));
   };
 
   return (
@@ -46,9 +49,9 @@ export default function App() {
             spellCheck="false"
           />
           <label htmlFor="copy-input" className="obj">
-            {JSON.stringify(obj, null, "\t")}
+            {JSON.stringify(obj, null, '\t')}
           </label>
-          <input id="copy-input" hidden onClick={raw && clickObjButton} />
+          <input id="copy-input" hidden onClick={clickObjButton} />
         </div>
       </div>
       <Snackbar {...snack}>Object Copied</Snackbar>
